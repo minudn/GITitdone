@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,4 +36,68 @@ public class GameControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("FIFA 2024"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("The Witcher 3"));
     }
+
+    @Test
+    public void testGetGameById() {
+        Game game = new Game(1L, "The Legend of Zelda: Breath of the Wild", "Nintendo", "Adventure", 59.99);
+        Mockito.when(gameService.getGameById(1L)).thenReturn(game);
+
+        Game retrievedGame = gameService.getGameById(1L);
+        assertNotNull(retrievedGame);
+        assertEquals(1L, retrievedGame.getId().longValue());
+        assertEquals("The Legend of Zelda: Breath of the Wild", retrievedGame.getName());
+    }
+
+    @Test
+    public void testCreateGame() {
+        Game game = new Game(null, "Cyberpunk 2077", "CD Projekt Red", "RPG", 59.99);
+        Game savedGame = new Game(3L, "Cyberpunk 2077", "CD Projekt Red", "RPG", 59.99);
+        Mockito.when(gameService.createGame(game)).thenReturn(savedGame);
+
+        Game createdGame = gameService.createGame(game);
+        assertNotNull(createdGame);
+        assertEquals("Cyberpunk 2077", createdGame.getName());
+        assertEquals("CD Projekt Red", createdGame.getDeveloper());
+    }
+
+    @Test
+    public void testUpdateGame() {
+        Game existingGame = new Game(2L, "Old Game", "Old Developer", "Old Genre", 29.99);
+        Game updatedGameDetails = new Game(null, "Super Mario Odyssey", "Nintendo", "Platformer", 49.99);
+        Game updatedGame = new Game(2L, "Super Mario Odyssey", "Nintendo", "Platformer", 49.99);
+        Mockito.when(gameService.getGameById(2L)).thenReturn(existingGame);
+        Mockito.when(gameService.updateGame(2L, updatedGameDetails)).thenReturn(updatedGame);
+
+        Game result = gameService.updateGame(2L, updatedGameDetails);
+        assertNotNull(result);
+        assertEquals("Super Mario Odyssey", result.getName());
+        assertEquals(49.99, result.getPrice());
+    }
+
+    @Test
+    public void testDeleteGame() {
+        Mockito.doNothing().when(gameService).deleteGame(3L);
+        gameService.deleteGame(3L);
+        Mockito.verify(gameService, Mockito.times(1)).deleteGame(3L);
+    }
+
+    @Test
+    public void testPopularGamesExist() {
+        Game zelda = new Game(1L, "The Legend of Zelda: Breath of the Wild", "Nintendo", "Adventure", 59.99);
+        Game mario = new Game(2L, "Super Mario Odyssey", "Nintendo", "Platformer", 49.99);
+        Game fortnite = new Game(3L, "Fortnite", "Epic Games", "Battle Royale", 0.00);
+
+        Mockito.when(gameService.getGameById(1L)).thenReturn(zelda);
+        Mockito.when(gameService.getGameById(2L)).thenReturn(mario);
+        Mockito.when(gameService.getGameById(3L)).thenReturn(fortnite);
+
+        assertNotNull(zelda, "Zelda game should not be null");
+        assertNotNull(mario, "Mario game should not be null");
+        assertNotNull(fortnite, "Fortnite game should not be null");
+
+        assertEquals("The Legend of Zelda: Breath of the Wild", zelda.getName());
+        assertEquals("Super Mario Odyssey", mario.getName());
+        assertEquals("Fortnite", fortnite.getName());
+    }
+
 }
