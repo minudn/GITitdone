@@ -65,7 +65,6 @@ public class Game {
         this.price = price;
     }
 
-    // Método para clonar valores de otro Game (opcional)
     public void clone(Game updatedGame) {
         this.setName(updatedGame.getName());
         this.setDeveloper(updatedGame.getDeveloper());
