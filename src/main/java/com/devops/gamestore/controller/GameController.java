@@ -3,6 +3,8 @@ package com.devops.gamestore.controller;
 import com.devops.gamestore.entity.Game;
 import com.devops.gamestore.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,27 +17,32 @@ public class GameController {
     private GameService gameService;
 
     @GetMapping
-    public List<Game> getAllGames() {
-        return gameService.getAllGames();
-    }
-
-    @GetMapping("/{id}")
-    public Game getGameById(@PathVariable Long id) {
-        return gameService.getGameById(id);
+    public ResponseEntity<List<Game>> getAllGames() {
+        List<Game> games = gameService.getAllGames();
+        return new ResponseEntity<>(games, HttpStatus.OK);
     }
 
     @PostMapping
-    public Game createGame(@RequestBody Game game) {
-        return gameService.createGame(game);
+    public ResponseEntity<Game> createGame(@RequestBody Game game) {
+        Game createdGame = gameService.createGame(game);
+        return new ResponseEntity<>(createdGame, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Game> getGameById(@PathVariable Long id) {
+        Game game = gameService.getGameById(id);
+        return new ResponseEntity<>(game, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public Game updateGame(@PathVariable Long id, @RequestBody Game game) {
-        return gameService.updateGame(id, game);
+    public ResponseEntity<Game> updateGame(@PathVariable Long id, @RequestBody Game updatedGame) {
+        Game game = gameService.updateGame(id, updatedGame);
+        return new ResponseEntity<>(game, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteGame(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteGame(@PathVariable Long id) {
         gameService.deleteGame(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
