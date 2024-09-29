@@ -12,7 +12,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,5 +35,4 @@ public class GameControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("FIFA 2024"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("The Witcher 3"));
     }
-
 }
