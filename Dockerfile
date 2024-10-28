@@ -1,4 +1,5 @@
 FROM maven:latest AS builder
+EXPOSE 8080
 RUN mkdir app
 COPY . ./app
 WORKDIR /app
