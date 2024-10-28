@@ -60,7 +60,7 @@ jobs:
       run: mvn package
 
     - name: Linting (Static Analysis)
-      run: mvn checkstyle:check || true
+      run: mvn checkstyle:check || false
 
     - name: Build Docker Image
       run: |
