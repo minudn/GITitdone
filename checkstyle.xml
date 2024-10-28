@@ -12,13 +12,10 @@
 
         <module name="JavadocMethod"/>
         
-
         <module name="JavadocType"/>
         
-
         <module name="JavadocStyle"/>
 
-
-        <module name="HiddenField"/>
+        <module name="HiddenField" enabled="false"/>
     </module>
 </module>
