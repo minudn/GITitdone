@@ -16,6 +16,5 @@
         
         <module name="JavadocStyle"/>
 
-        <module name="HiddenField" enabled="false"/>
     </module>
 </module>
