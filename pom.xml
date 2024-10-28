@@ -62,7 +62,7 @@
                 </executions>
                 <configuration>
                     <!-- Usa una supresión en línea para el módulo HiddenField -->
-                    <suppressionsLocation>config/checkstyle.xml</suppressionsLocation>
+                    <suppressionsLocation>checkstyle.xml</suppressionsLocation>
                 </configuration>
             </plugin>
         </plugins>
