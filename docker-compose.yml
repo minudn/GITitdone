@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  gititdone_app:
+    container_name: gititdone_app
+    image: devops-gititdone_app:1.0.0
+    build: .
+    ports:
+      - 8080:8080
+    networks:
+      - gititdone_network
+
+networks:
+  gititdone_network:
+    external: true
