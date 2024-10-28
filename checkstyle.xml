@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <property name="severity" value="warning"/>
+
+    <module name="TreeWalker">
+        <!-- Solo chequeamos los Javadocs -->
+        <module name="JavadocMethod"/>
+        <module name="JavadocType"/>
+        <module name="JavadocStyle"/>
+
+        <!-- Omitimos todas las demás reglas -->
+        <module name="EmptyCatchBlock" severity="ignore"/>
+        <module name="LineLength" severity="ignore"/>
+        <module name="HiddenField" severity="ignore"/>
+        <module name="WhitespaceAround" severity="ignore"/>
+        <module name="WhitespaceAfter" severity="ignore"/>
+        <module name="EmptyLineSeparator" severity="ignore"/>
+        <module name="NoWhitespaceBefore" severity="ignore"/>
+    </module>
+</module>
