@@ -1,40 +1,73 @@
-package com.devops.gamestore.service;
+package com.devops.gamestore.controller;
 
 import com.devops.gamestore.entity.Game;
-import com.devops.gamestore.repository.GameRepository;
+import com.devops.gamestore.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Service
-public class GameService {
+/**
+ * REST controller for managing games in the Game Store application.
+ */
+@RestController
+@RequestMapping("/games")
+public class GameController {
 
     @Autowired
-    private GameRepository gameRepository;
+    private GameService gameService;
 
+    /**
+     * Retrieves a list of all games.
+     *
+     * @return a list of all games
+     */
+    @GetMapping
     public List<Game> getAllGames() {
-        return gameRepository.findAll();
+        return gameService.getAllGames();
     }
 
-    public Game getGameById(Long id) {
-        return gameRepository.findById(id).orElseThrow(() -> new RuntimeException("Game not found"));
+    /**
+     * Retrieves a game by its ID.
+     *
+     * @param id the ID of the game
+     * @return the game with the specified ID
+     */
+    @GetMapping("/{id}")
+    public Game getGameById(@PathVariable Long id) {
+        return gameService.getGameById(id);
     }
 
-    public Game createGame(Game game) {
-        return gameRepository.save(game);
+    /**
+     * Creates a new game.
+     *
+     * @param game the game to create
+     * @return the created game
+     */
+    @PostMapping
+    public Game createGame(@RequestBody Game game) {
+        return gameService.createGame(game);
     }
 
-    public Game updateGame(Long id, Game updatedGame) {
-        Game existingGame = getGameById(id);
-        existingGame.setName(updatedGame.getName());
-        existingGame.setDeveloper(updatedGame.getDeveloper());
-        existingGame.setGenre(updatedGame.getGenre());
-        existingGame.setPrice(updatedGame.getPrice());
-        return gameRepository.save(existingGame);
+    /**
+     * Updates an existing game.
+     *
+     * @param id the ID of the game to update
+     * @param game the updated game information
+     * @return the updated game
+     */
+    @PutMapping("/{id}")
+    public Game updateGame(@PathVariable Long id, @RequestBody Game game) {
+        return gameService.updateGame(id, game);
     }
 
-    public void deleteGame(Long id) {
-        gameRepository.deleteById(id);
+    /**
+     * Deletes a game by its ID.
+     *
+     * @param id the ID of the game to delete
+     */
+    @DeleteMapping("/{id}")
+    public void deleteGame(@PathVariable Long id) {
+        gameService.deleteGame(id);
     }
 }

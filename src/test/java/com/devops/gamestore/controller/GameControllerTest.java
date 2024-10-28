@@ -16,6 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Test class for the GameController.
+ */
 @WebMvcTest(GameController.class)
 public class GameControllerTest {
 
@@ -25,6 +28,11 @@ public class GameControllerTest {
     @MockBean
     private GameService gameService;
 
+    /**
+     * Tests the getAllGames method of GameController.
+     *
+     * @throws Exception if an error occurs during the request
+     */
     @Test
     public void testGetAllGames() throws Exception {
         Game game1 = new Game(1L, "FIFA 2024", "Electronic Arts", "Fútbol", 59.99);
@@ -37,6 +45,9 @@ public class GameControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("The Witcher 3"));
     }
 
+    /**
+     * Tests the getGameById method of GameController.
+     */
     @Test
     public void testGetGameById() {
         Game game = new Game(1L, "The Legend of Zelda: Breath of the Wild", "Nintendo", "Adventure", 59.99);
@@ -48,6 +59,9 @@ public class GameControllerTest {
         assertEquals("The Legend of Zelda: Breath of the Wild", retrievedGame.getName());
     }
 
+    /**
+     * Tests the createGame method of GameController.
+     */
     @Test
     public void testCreateGame() {
         Game game = new Game(null, "Cyberpunk 2077", "CD Projekt Red", "RPG", 59.99);
@@ -60,6 +74,9 @@ public class GameControllerTest {
         assertEquals("CD Projekt Red", createdGame.getDeveloper());
     }
 
+    /**
+     * Tests the updateGame method of GameController.
+     */
     @Test
     public void testUpdateGame() {
         Game existingGame = new Game(2L, "Old Game", "Old Developer", "Old Genre", 29.99);
@@ -74,6 +91,9 @@ public class GameControllerTest {
         assertEquals(49.99, result.getPrice());
     }
 
+    /**
+     * Tests the deleteGame method of GameController.
+     */
     @Test
     public void testDeleteGame() {
         Mockito.doNothing().when(gameService).deleteGame(3L);
@@ -81,6 +101,9 @@ public class GameControllerTest {
         Mockito.verify(gameService, Mockito.times(1)).deleteGame(3L);
     }
 
+    /**
+     * Tests if popular games exist in the GameService.
+     */
     @Test
     public void testPopularGamesExist() {
         Game zelda = new Game(1L, "The Legend of Zelda: Breath of the Wild", "Nintendo", "Adventure", 59.99);
