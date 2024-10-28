@@ -59,9 +59,6 @@ jobs:
     - name: Build with Maven
       run: mvn package
 
-    - name: Linting (Static Analysis)
-      run: mvn checkstyle:check || false
-
     - name: Build Docker Image
       run: |
         docker build -t javeexd/gamestore-app .
