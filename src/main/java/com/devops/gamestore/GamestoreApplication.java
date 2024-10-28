@@ -3,7 +3,7 @@ package com.devops.gamestore;
 /**
  * Main application class for the Game Store application.
  */
-public class GamestoreApplication {
+public final class GamestoreApplication {
 
 	/**
 	 * Private constructor to prevent instantiation.
@@ -20,4 +20,5 @@ public class GamestoreApplication {
 	public static void main(final String[] args) {
 		SpringApplication.run(GamestoreApplication.class, args);
 	}
+
 }

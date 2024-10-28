@@ -64,10 +64,11 @@ public class GameController {
      * @return the updated game
      */
     @PutMapping("/{id}")
-    public Game updateGame(@PathVariable final Long id, @RequestBody final Game game) {
+    public Game updateGame(
+            @PathVariable final Long id,
+            @RequestBody final Game game) {
         return gameService.updateGame(id, game);
     }
-
     /**
      * Deletes a game by its ID.
      *
@@ -77,4 +78,5 @@ public class GameController {
     public void deleteGame(@PathVariable final Long id) {
         gameService.deleteGame(id);
     }
+
 }

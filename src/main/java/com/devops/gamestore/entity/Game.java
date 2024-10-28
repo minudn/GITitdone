@@ -43,7 +43,8 @@ public class Game {
      * @param gameGenre the genre of the game
      * @param gamePrice the price of the game
      */
-    public Game(final Long gameId, final String gameName, final String gameDeveloper, final String gameGenre, final Double gamePrice) {
+    public Game(final Long gameId, final String gameName, final String gameDeveloper,
+                final String gameGenre, final Double gamePrice) {
         this.id = gameId;
         this.name = gameName;
         this.developer = gameDeveloper;
@@ -70,4 +71,97 @@ public class Game {
         this.setGenre(updatedGame.getGenre());
         this.setPrice(updatedGame.getPrice());
     }
+
+    // Getters and setters with Javadoc comments
+
+    /**
+     * Gets the ID of the game.
+     *
+     * @return the ID of the game
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * Sets the ID of the game.
+     *
+     * @param id the ID of the game
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Gets the name of the game.
+     *
+     * @return the name of the game
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the name of the game.
+     *
+     * @param name the name of the game
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Gets the developer of the game.
+     *
+     * @return the developer of the game
+     */
+    public String getDeveloper() {
+        return developer;
+    }
+
+    /**
+     * Sets the developer of the game.
+     *
+     * @param developer the developer of the game
+     */
+    public void setDeveloper(String developer) {
+        this.developer = developer;
+    }
+
+    /**
+     * Gets the genre of the game.
+     *
+     * @return the genre of the game
+     */
+    public String getGenre() {
+        return genre;
+    }
+
+    /**
+     * Sets the genre of the game.
+     *
+     * @param genre the genre of the game
+     */
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    /**
+     * Gets the price of the game.
+     *
+     * @return the price of the game
+     */
+    public Double getPrice() {
+        return price;
+    }
+
+    /**
+     * Sets the price of the game.
+     *
+     * @param price the price of the game
+     */
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
 }

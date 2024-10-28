@@ -24,4 +24,5 @@ public interface GameRepository {
     Game findById(Long id);
 
     // Other repository methods
+
 }
