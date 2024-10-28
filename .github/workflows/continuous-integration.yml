@@ -1,4 +1,5 @@
 name: Java CI
+
 on:
   push:
     branches:
@@ -11,6 +12,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: gamestore
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -22,10 +38,25 @@ jobs:
         distribution: 'temurin' 
 
     - name: Install dependencies
-      run: mvn install
+      run: mvn install -DskipTests
 
     - name: Run unit tests
       run: mvn test
 
     - name: Build with Maven
       run: mvn package
+
+    - name: Linting (Static Analysis)
+      run: mvn checkstyle:check || true
+
+    - name: Build Docker Image
+      run: |
+        docker build -t javeexd/gamestore-app .
+
+    - name: Push Docker Image
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+        docker push javeexd/gamestore-app
