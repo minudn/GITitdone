@@ -60,6 +60,10 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <!-- Usa una supresión en línea para el módulo HiddenField -->
+                    <suppressionsLocation>config/suppressions.xml</suppressionsLocation>
+                </configuration>
             </plugin>
         </plugins>
     </build>
