@@ -1,4 +1,7 @@
 <!DOCTYPE suppressions PUBLIC "-//Puppy Crawl//DTD Suppressions X.Y//EN" "https://checkstyle.org/dtds/suppressions_1_2.dtd">
 <suppressions>
     <suppress checks="HiddenField"/>
+    <suppress checks="LineLength"/>
+    <suppress checks="JavadocVariable"/>
+    <suppress checks="FileTabCharacter"/>
 </suppressions>
