@@ -13,6 +13,9 @@ import java.util.List;
 @Service
 public class GameService {
 
+    /**
+     * Repository for accessing game data.
+     */
     @Autowired
     private GameRepository gameRepository;
 
@@ -33,7 +36,8 @@ public class GameService {
      * @throws RuntimeException if the game is not found
      */
     public Game getGameById(final Long id) {
-        return gameRepository.findById(id).orElseThrow(() -> new RuntimeException("Game not found"));
+        return gameRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Game not found"));
     }
 
     /**

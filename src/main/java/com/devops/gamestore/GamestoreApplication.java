@@ -1,13 +1,23 @@
 package com.devops.gamestore;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
+/**
+ * Main application class for the Game Store application.
+ */
 public class GamestoreApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GamestoreApplication.class, args);
+	/**
+	 * Private constructor to prevent instantiation.
+	 */
+	private GamestoreApplication() {
+		throw new UnsupportedOperationException("Utility class");
 	}
 
+	/**
+	 * Main method to start the application.
+	 *
+	 * @param args the command line arguments
+	 */
+	public static void main(final String[] args) {
+		SpringApplication.run(GamestoreApplication.class, args);
+	}
 }

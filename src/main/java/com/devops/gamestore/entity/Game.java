@@ -14,26 +14,41 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * The name of the game.
+     */
     private String name;
+
+    /**
+     * The developer of the game.
+     */
     private String developer;
+
+    /**
+     * The genre of the game.
+     */
     private String genre;
+
+    /**
+     * The price of the game.
+     */
     private Double price;
 
     /**
      * Constructs a new Game with the specified details.
      *
-     * @param id the ID of the game
-     * @param name the name of the game
-     * @param developer the developer of the game
-     * @param genre the genre of the game
-     * @param price the price of the game
+     * @param gameId the ID of the game
+     * @param gameName the name of the game
+     * @param gameDeveloper the developer of the game
+     * @param gameGenre the genre of the game
+     * @param gamePrice the price of the game
      */
-    public Game(final Long id, final String name, final String developer, final String genre, final Double price) {
-        this.id = id;
-        this.name = name;
-        this.developer = developer;
-        this.genre = genre;
-        this.price = price;
+    public Game(final Long gameId, final String gameName, final String gameDeveloper, final String gameGenre, final Double gamePrice) {
+        this.id = gameId;
+        this.name = gameName;
+        this.developer = gameDeveloper;
+        this.genre = gameGenre;
+        this.price = gamePrice;
     }
 
     /**

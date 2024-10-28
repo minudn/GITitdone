@@ -4,18 +4,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * REST controller for health check in the Game Store application.
+ * Controller for health check endpoints.
  */
 @RestController
-public final class HealthCheckController {
+public class HealthCheckController {
 
     /**
      * Health check endpoint.
      *
-     * @return a string indicating the health status
+     * @return a message indicating the service is up
      */
     @GetMapping("/health")
     public String healthCheck() {
-        return "OK";
+        return "Service is up and running";
     }
 }
