@@ -34,7 +34,7 @@ public class GameController {
      * @return the game with the specified ID
      */
     @GetMapping("/{id}")
-    public Game getGameById(@PathVariable Long id) {
+    public Game getGameById(@PathVariable final Long id) {
         return gameService.getGameById(id);
     }
 
@@ -45,7 +45,7 @@ public class GameController {
      * @return the created game
      */
     @PostMapping
-    public Game createGame(@RequestBody Game game) {
+    public Game createGame(@RequestBody final Game game) {
         return gameService.createGame(game);
     }
 
@@ -57,7 +57,7 @@ public class GameController {
      * @return the updated game
      */
     @PutMapping("/{id}")
-    public Game updateGame(@PathVariable Long id, @RequestBody Game game) {
+    public Game updateGame(@PathVariable final Long id, @RequestBody final Game game) {
         return gameService.updateGame(id, game);
     }
 
@@ -67,7 +67,7 @@ public class GameController {
      * @param id the ID of the game to delete
      */
     @DeleteMapping("/{id}")
-    public void deleteGame(@PathVariable Long id) {
+    public void deleteGame(@PathVariable final Long id) {
         gameService.deleteGame(id);
     }
 }
