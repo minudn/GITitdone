@@ -26,7 +26,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -36,11 +35,25 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        for i in {1..10}; do
+          if pg_isready -h localhost -p 5432 -U postgres; then
+            echo "PostgreSQL is ready"
+            break
+          fi
+          echo "Waiting for PostgreSQL..."
+          sleep 5
+        done
 
     - name: Install dependencies
       run: mvn install -DskipTests
 
     - name: Run unit tests
+      env:
+        DB_URL: jdbc:postgresql://localhost:5432/gamestore
+        DB_USER: postgres
+        DB_PASSWORD: postgres
       run: mvn test
 
     - name: Build with Maven
@@ -52,7 +65,6 @@ jobs:
     - name: Build Docker Image
       run: |
         docker build -t javeexd/gamestore-app .
-
     - name: Push Docker Image
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
