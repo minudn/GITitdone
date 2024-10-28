@@ -20,5 +20,5 @@ public final class GamestoreApplication {
 	public static void main(final String[] args) {
 		SpringApplication.run(GamestoreApplication.class, args);
 	}
-
 }
+

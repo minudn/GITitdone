@@ -21,6 +21,9 @@ import java.util.List;
 @RequestMapping("/games")
 public class GameController {
 
+    /**
+     * Service for managing games.
+     */
     @Autowired
     private GameService gameService;
 

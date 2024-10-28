@@ -10,6 +10,9 @@ import jakarta.persistence.Id;
  */
 @Entity
 public class Game {
+    /**
+     * The ID of the game.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -58,8 +61,6 @@ public class Game {
     public Game() {
     }
 
-    // Getters and setters with Javadoc comments
-
     /**
      * Clones the current game with updated information.
      *
@@ -71,8 +72,6 @@ public class Game {
         this.setGenre(updatedGame.getGenre());
         this.setPrice(updatedGame.getPrice());
     }
-
-    // Getters and setters with Javadoc comments
 
     /**
      * Gets the ID of the game.
@@ -88,7 +87,7 @@ public class Game {
      *
      * @param id the ID of the game
      */
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -106,7 +105,7 @@ public class Game {
      *
      * @param name the name of the game
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -124,7 +123,7 @@ public class Game {
      *
      * @param developer the developer of the game
      */
-    public void setDeveloper(String developer) {
+    public void setDeveloper(final String developer) {
         this.developer = developer;
     }
 
@@ -142,7 +141,7 @@ public class Game {
      *
      * @param genre the genre of the game
      */
-    public void setGenre(String genre) {
+    public void setGenre(final String genre) {
         this.genre = genre;
     }
 
@@ -160,8 +159,8 @@ public class Game {
      *
      * @param price the price of the game
      */
-    public void setPrice(Double price) {
+    public void setPrice(final Double price) {
         this.price = price;
     }
-
 }
+
