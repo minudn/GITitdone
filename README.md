@@ -1,18 +1,22 @@
-Proyecto: API de Gestión de Gamestore
+🚀 Proyecto: API de Gestión de Gamestore
 
 Este proyecto es una API RESTful para la gestión de un gamestore, construida con Java y Spring Boot, con integración para la base de datos PostgreSQL y despliegue automatizado en Docker. El pipeline de CI/CD automatiza la ejecución de tests, construcción y despliegue de la aplicación.
 Tabla de Contenidos
 
-    Tecnologías
-    Instalación
-    Ejecución
-    Endpoints de la API
-    CI/CD
-    Monitoreo
-    Contribuciones
+ 📚 Tabla de Contenidos
+
+    🛠️ Tecnologías
+    📥 Instalación
+    ▶️ Ejecución
+        🏠 Localmente
+        🐳 Con Docker
+    🔗 Endpoints de la API
+    🚧 CI/CD
+    📊 Monitoreo
+    🤝 Contribuciones
 
 
-Tecnologías
+🛠️ Tecnologías
 
     Java 17: Lenguaje principal para el backend.
     Spring Boot: Framework para la creación de la API.
@@ -21,7 +25,7 @@ Tecnologías
     GitHub Actions: Pipeline de CI/CD.
     DataDog: Monitoreo y análisis de rendimiento.
 
-Instalación
+📥 Instalación
 
     Clona el repositorio:
 
@@ -44,8 +48,8 @@ bash
 
     mvn clean install
 
-Ejecución
-Localmente
+▶️ Ejecución
+🏠 Localmente
 
     Puedes ejecutar la aplicación directamente:
 
@@ -53,7 +57,7 @@ Localmente
 
     mvn spring-boot:run
 
-Con Docker
+🐳 Con Docker
 
     Construcción de la imagen Docker:
 
@@ -66,8 +70,9 @@ Ejecución del contenedor:
 bash
 
     docker run -p 8080:8080 -e DB_URL=jdbc:postgresql://localhost:5432/gamestore -e DB_USER=postgres -e DB_PASSWORD=postgres tu-usuario/gamestore-app
+    
+🔗 Endpoints de la API
 
-Endpoints de la API
 Método	Endpoint	Descripción
 GET	/api/products	Obtiene todos los productos
 POST	/api/products	Crea un nuevo producto
@@ -76,7 +81,8 @@ PUT	/api/products/{id}	Actualiza un producto existente
 DELETE	/api/products/{id}	Elimina un producto por su ID
 
 Nota: Todos los endpoints aceptan y responden en formato JSON.
-CI/CD
+
+🚧 CI/CD
 
 La configuración de CI/CD se encuentra en .github/workflows y utiliza GitHub Actions.
 
@@ -93,7 +99,7 @@ Para configurar tus secrets de Docker en GitHub:
     DOCKER_USERNAME: Usuario de Docker Hub.
     DOCKER_PASSWORD: Contraseña de Docker Hub.
 
-Monitoreo
+📊 Monitoreo
 
 DataDog se ha integrado para monitorear el rendimiento de la aplicación en producción.
 
@@ -113,7 +119,7 @@ DataDog se ha integrado para monitorear el rendimiento de la aplicación en prod
 
     Dashboards y Alertas: Configura dashboards en DataDog para monitorear el uso de CPU, memoria, tiempos de respuesta, y errores, y define alertas para notificaciones automáticas.
 
-Contribuciones
+🤝 Contribuciones
 
     Hace un fork del repositorio.
     Crea una nueva rama.
