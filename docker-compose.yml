@@ -1,7 +1,7 @@
 services:
   gititdone_app:
     container_name: gititdone_app
-    image: devops-gititdone_app:latest
+    image: javeexd/gamestore-app:latest
     build: .
     ports:
       - 8080:8080
