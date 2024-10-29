@@ -25,4 +25,4 @@ COPY --from=builder /app/dd-java-agent.jar /app/dd-java-agent.jar
 ENV JAVA_OPTS="-javaagent:/app/dd-java-agent.jar"
 
 # Ejecutar la aplicación con el agente
-ENTRYPOINT ["java", "-javaagent:/app/dd-java-agent.jar", "-jar", "/app/gititdone_app.jar"]
+ENTRYPOINT ["java", "-javaagent:/app/dd-java-agent.jar","-Ddd.apm.enabled=true","-jar", "/app/gititdone_app.jar"]
