@@ -1,15 +1,50 @@
-version: '3.9'
-
 services:
   gititdone_app:
     container_name: gititdone_app
-    image: devops-gititdone_app:1.0.0
+    image: devops-gititdone_app:latest
     build: .
     ports:
       - 8080:8080
     networks:
       - gititdone_network
-
+    environment:
+      - DB_HOST=gamestore
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      - gititdone_db
+  gititdone_db:
+    container_name: gititdone_db
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gamestore
+    volumes:
+      - gititdone_gititdone_db-data:/var/lib/postgresql/data
+    networks:
+      - gititdone_network
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+    environment:
+      - DB_HOST=gamestore
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      - gititdone_db
+    command: mvn test
+    networks:
+      - gititdone_network
+volumes:
+  gititdone_gititdone_db-data:
 networks:
   gititdone_network:
-    external: true
