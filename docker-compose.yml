@@ -28,7 +28,7 @@ services:
       - "8125:8125/udp"
       - "10514:10514/tcp"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # Permite al agente leer el estado de Docker
+      - /var/run/docker.sock:/var/run/docker.sock 
 
   gititdone_db:
     container_name: gititdone_db
