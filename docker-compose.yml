@@ -18,14 +18,14 @@ services:
   datadog-agent:
     image: datadog/agent:latest
     environment:
-      - DD_API_KEY=72cab1ec49a23ca6d5abc96eb9e35067 # Reemplaza con tu API key de Datadog
-      - DD_SITE=datadoghq.com # Cambia esto si usas una región diferente
+      - DD_API_KEY=${DATADOG_API_KEY}
+      - DD_SITE=datadoghq.com
       - DD_DOGSTATSD_PORT=8125
       - DD_LOGS_ENABLED=true
       - DD_LOGS_CONFIG_LOGS_ENABLED=true
     ports:
-      - "8125:8125/udp" # Puerto para DogStatsD
-      - "10514:10514/tcp" # Puerto para logs
+      - "8125:8125/udp"
+      - "10514:10514/tcp"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # Permite al agente leer el estado de Docker
   gititdone_db:
