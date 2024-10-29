@@ -8,9 +8,9 @@ services:
     networks:
       - gititdone_network
     environment:
-      - DB_HOST=gamestore
+      - DB_HOST=gititdone_db
       - DB_PORT=5432
-      - DB_NAME=postgres
+      - DB_NAME=gamestore
       - DB_USER=postgres
       - DB_PASSWORD=postgres
     depends_on:
@@ -32,11 +32,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: build
+      target: builder
     environment:
-      - DB_HOST=gamestore
+      - DB_HOST=gititdone_db
       - DB_PORT=5432
-      - DB_NAME=postgres
+      - DB_NAME=gamestore
       - DB_USER=postgres
       - DB_PASSWORD=postgres
     depends_on:
