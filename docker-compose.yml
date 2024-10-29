@@ -33,7 +33,9 @@ services:
       - "8125:8125/udp"
       - "10514:10514/tcp"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock 
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - gititdone_network 
 
   gititdone_db:
     container_name: gititdone_db
