@@ -70,9 +70,9 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
-          DB_URL: ${DB_URL}
-          DB_USER: ${DB_USER}
-          DB_PASSWORD: ${DB_PASSWORD}
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: mvn test
 
       - name: Build with Maven
@@ -88,3 +88,10 @@ jobs:
         run: |
           echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
           docker push javeexd/gamestore-app
+
+      - name: Deploy to Render
+        if: github.ref == 'refs/heads/master' && success()
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl -X POST "$deploy_url"
