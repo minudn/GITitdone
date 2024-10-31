@@ -34,3 +34,9 @@ jobs:
       - name: Run New Container
         run: |
           docker run -d --name gamestore-container -p 80:80 javeexd/gamestore-app:latest
+      - name: Deploy to Render
+        if: github.ref == 'refs/heads/master' && needs.build.result == 'success'
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl -X POST $deploy_url
