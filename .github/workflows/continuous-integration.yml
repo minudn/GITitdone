@@ -69,6 +69,11 @@ jobs:
         run: mvn test
 
       - name: Build with Maven
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ vars.POSTGRES_DB }}
         run: mvn package
 
       - name: Build Docker Image
