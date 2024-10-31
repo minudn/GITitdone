@@ -46,9 +46,10 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ vars.POSTGRES_DB }}
           POSTGRES_PORT: ${{ vars.POSTGRES_PORT }}
+          DB_HOST: ${{ vars.POSTGRES_HOST }}
         run: |
           for i in {1..10}; do
-            if pg_isready -h localhost -p ${{ vars.POSTGRES_PORT }} -U ${{ vars.POSTGRES_USER }}; then
+            if pg_isready -h ${DB_HOST} -p ${{ vars.POSTGRES_PORT }} -U ${{ vars.POSTGRES_USER }}; then
               echo "PostgreSQL is ready"
               break
             fi
@@ -65,7 +66,7 @@ jobs:
 
       - name: Run unit tests
         env:
-          POSTGRES_HOST: localhost
+          POSTGRES_HOST: ${{ vars.POSTGRES_HOST }}
           POSTGRES_USER: ${{ vars.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ vars.POSTGRES_DB }}
