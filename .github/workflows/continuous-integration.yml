@@ -11,18 +11,23 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env: 
+      POSTGRES_HOST: localhost
+      POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ vars.POSTGRES_DB }}
+      POSTGRES_PORT: 5432
     services:
       gititdone_db:
         image: postgres:latest
         env:
-          POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+          POSTGRES_USER: ${POSTGRES_USER}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ vars.POSTGRES_DB }}
+          POSTGRES_DB: ${POSTGRES_DB}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U ${{ vars.POSTGRES_USER }}"
+          --health-cmd "pg_isready -U ${POSTGRES_USER}"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -38,11 +43,6 @@ jobs:
           distribution: 'temurin'
 
       - name: Wait for PostgreSQL to be ready
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_USER: ${{ vars.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ vars.POSTGRES_DB }}
         run: |
           for i in {1..20}; do
             if pg_isready -h $POSTGRES_HOST -p 5432 -U $POSTGRES_USER; then
@@ -61,19 +61,9 @@ jobs:
         continue-on-error: true
 
       - name: Run unit tests
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_USER: ${{ vars.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ vars.POSTGRES_DB }}
         run: mvn test
 
       - name: Build with Maven
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_USER: ${{ vars.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ vars.POSTGRES_DB }}
         run: mvn package
 
       - name: Build Docker Image
