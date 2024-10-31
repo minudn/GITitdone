@@ -3,7 +3,7 @@ name: Java CD
 on:
   push:
     branches:
-      - master
+      - master  # Cambia a 'main' si es necesario
 
 jobs:
   deploy:
@@ -20,8 +20,9 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 
-      - name: Pull Docker Image from Docker Hub
-        run: docker pull javeexd/gamestore-app:latest
+      - name: Build Docker Image
+        run: |
+          docker build -t javeexd/gamestore-app:latest .
 
       - name: Stop Existing Container (if any)
         run: |
@@ -33,9 +34,14 @@ jobs:
 
       - name: Run New Container
         run: |
-          docker run -d --name gamestore-container -p 80:80 javeexd/gamestore-app:latest
+          docker run -d --name gamestore-container \
+            -p 80:8080 \         # Puerto para la aplicación
+            -p 8125:8125/udp \   # Puerto UDP para DogStatsD
+            -p 10514:10514 \      # Puerto adicional, verifica si es necesario
+            javeexd/gamestore-app:latest
+
       - name: Deploy to Render
-        if: github.ref == 'refs/heads/master' && needs.build.result == 'success'
+        if: github.ref == 'refs/heads/master'  # Cambia a 'refs/heads/main' si es necesario
         env:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
