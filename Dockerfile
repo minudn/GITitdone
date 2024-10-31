@@ -1,6 +1,5 @@
 # Etapa de construcción
 FROM maven:latest AS builder
-EXPOSE 8080 8125/udp 10514
 RUN mkdir /app
 COPY . /app
 WORKDIR /app
@@ -11,6 +10,7 @@ FROM openjdk:17-jdk-alpine
 RUN mkdir /app
 COPY --from=builder /app/target/gamestore-0.0.1-SNAPSHOT.jar /app/gititdone_app.jar
 COPY --from=builder /app/dd-java-agent.jar /app/dd-java-agent.jar
+EXPOSE 8080 10514 8125/udp
 ENV DD_API_KEY=${DATADOG_API_KEY} \
     DD_SITE="datadoghq.com" \
     DD_DOGSTATSD_PORT=8125 \

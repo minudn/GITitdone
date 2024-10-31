@@ -3,7 +3,7 @@ name: Java CD
 on:
   push:
     branches:
-      - master  # Cambia a 'main' si es necesario
+      - master
 
 jobs:
   deploy:
@@ -14,33 +14,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Log in to Docker Hub
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-
-      - name: Pull Docker Image from Docker Hub
-        run: docker pull javeexd/gamestore-app:latest
-
-      - name: Stop Existing Container (if any)
-        run: |
-          docker ps -q --filter "name=gamestore-container" | grep -q . && docker stop gamestore-container || echo "No container to stop"
-
-      - name: Remove Existing Container (if any)
-        run: |
-          docker ps -a -q --filter "name=gamestore-container" | grep -q . && docker rm gamestore-container || echo "No container to remove"
-
-      - name: Run New Container
-        run: |
-          docker run -d --name gamestore-container \
-            -p 80:8080 \         # Puerto para la aplicación
-            -p 8125:8125/udp \   # Puerto UDP para DogStatsD
-            -p 10514:10514 \      # Puerto adicional, verifica si es necesario
-            javeexd/gamestore-app:latest
-
       - name: Deploy to Render
-        if: github.ref == 'refs/heads/master'  # Cambia a 'refs/heads/main' si es necesario
+        if: github.ref == 'refs/heads/master'
         env:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
