@@ -16,6 +16,8 @@ public class GamestoreApplication {
 	 * @param args command-line arguments passed to the application
 	 */
 	public static void main(String[] args) {
+		System.out.println("Postgres URL: " + System.getenv("POSTGRES_URL"));
+		System.out.println("Postgres User: " + System.getenv("POSTGRES_USER"));
 		SpringApplication.run(GamestoreApplication.class, args);
 	}
 
