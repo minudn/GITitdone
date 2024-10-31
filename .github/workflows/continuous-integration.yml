@@ -62,7 +62,7 @@ jobs:
 
       - name: Run unit tests
         env:
-          POSTGRES_HOST: gititdone_db
+          POSTGRES_HOST: localhost
           POSTGRES_USER: ${{ vars.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ vars.POSTGRES_DB }}
