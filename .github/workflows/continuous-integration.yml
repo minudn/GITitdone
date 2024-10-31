@@ -20,6 +20,10 @@ jobs:
     services:
       gititdone_db:
         image: postgres:latest
+        env:
+          POSTGRES_USER: ${{ vars.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ vars.POSTGRES_DB }}
         ports:
           - 5432:5432
         options: >-
