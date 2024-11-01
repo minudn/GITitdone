@@ -9,16 +9,17 @@ RUN mvn clean package -DskipTests
 # Cambiar de `openjdk:17-jdk-alpine` a `openjdk:17-jdk-slim` para compatibilidad
 FROM openjdk:17-jdk-slim
 
-# Instalar el Agente Completo de Datadog
-RUN apt-get update && apt-get install -y wget gnupg \
-    && wget -qO - https://keys.datadoghq.com/DATADOG_APT_KEY.public | apt-key add - \
-    && echo "deb https://apt.datadoghq.com/ stable 7 main" > /etc/apt/sources.list.d/datadog.list \
-    && apt-get update \
-    && apt-get install -y datadog-agent \
-    && rm -rf /var/lib/apt/lists/*
+# Instalar dependencias necesarias
+RUN apt-get update && apt-get install -y wget gnupg curl
 
-# Instalar el Agente Completo de Datadog
-RUN apt-get update && apt-get install -y wget gnupg
+# Agregar el repositorio de Datadog y la clave GPG
+RUN curl -sSL https://apt.datadoghq.com/DATADOG_APT_KEY.public | apt-key add - \
+    && echo "deb https://apt.datadoghq.com/ stable 7 main" > /etc/apt/sources.list.d/datadog.list
+
+# Actualizar la lista de paquetes e instalar el agente de Datadog
+RUN apt-get update && apt-get install -y datadog-agent \
+    && rm -rf /var/lib/apt/lists/* \
+
 # Descargar el agente Java de Datadog
 RUN mkdir /app
 COPY --from=builder /app/target/gamestore-0.0.1-SNAPSHOT.jar /app/gititdone_app.jar
