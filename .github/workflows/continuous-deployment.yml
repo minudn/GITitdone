@@ -10,7 +10,7 @@ jobs:
     name: Deploy Application to Server
     runs-on: ubuntu-latest
     env:
-      SSH_PRIVATE_KEY: ${{ vars.SSH_PRIVATE_KEY }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
     #
     steps:
       - name: Checkout code
