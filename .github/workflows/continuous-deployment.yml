@@ -21,7 +21,7 @@ jobs:
 
       - name: Copy docker-compose.yml to server
         run: |
-          scp -o StrictHostKeyChecking=no docker-compose.yml ${{ vars.USER_TODEPLOY }}@$${{ vars.HOST_TODEPLOY }}:/home/ubuntu/gamestore/
+          scp -o StrictHostKeyChecking=no docker-compose.yml ${{ vars.USER_TODEPLOY }}@${{ vars.HOST_TODEPLOY }}:/home/ubuntu/gamestore/
 
       - name: Remove old container and images
         run: |
