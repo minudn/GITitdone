@@ -20,7 +20,7 @@ COPY --from=builder /app/dd-java-agent.jar /app/dd-java-agent.jar
 # Configurar variables de entorno
 #EXPOSE 8080 10514 8125/udp
 # Exponer puertos necesarios
-EXPOSE 8080 8126
+EXPOSE 8080 10514 8126 8125/udp
 ENV DD_API_KEY=${DATADOG_API_KEY} \
     DD_SITE="datadoghq.com" \
     DD_DOGSTATSD_PORT=8125 \
@@ -29,4 +29,4 @@ ENV DD_API_KEY=${DATADOG_API_KEY} \
     JAVA_OPTS="-javaagent:/app/dd-java-agent.jar"
 
 # Ejecutar el agente de Datadog y la aplicación
-CMD ["sh", "-c", "/etc/init.d/datadog-agent start && java $JAVA_OPTS -jar /app/gititdone_app.jar"]
+CMD ["sh", "-c", "datadog-agent status && datadog-agent run & java $JAVA_OPTS -jar /app/gititdone_app.jar"]
