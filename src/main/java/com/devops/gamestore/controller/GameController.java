@@ -55,7 +55,7 @@ public class GameController {
     /**
      * Updates an existing game.
      *
-     * @param id the ID of the game to update
+     * @param id   the ID of the game to update
      * @param game the updated game information
      * @return the updated game
      */
