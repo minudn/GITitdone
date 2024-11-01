@@ -30,8 +30,11 @@ EXPOSE 8080 10514 8126 8125/udp
 ENV DD_API_KEY=${DATADOG_API_KEY} \
     DD_SITE="datadoghq.com" \
     DD_DOGSTATSD_PORT=8125 \
+    DD_APM_ENABLED=true \
     DD_LOGS_ENABLED=true \
     DD_LOGS_CONFIG_LOGS_ENABLED=true \
-    JAVA_OPTS="-javaagent:/app/dd-java-agent.jar"
+    DD_APM_CONNECTION_LIMIT= 2000 \
+    JAVA_OPTS="-javaagent:/app/dd-java-agent.jar OPTS -jar /app/gititdone_app.jar"
+
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/gititdone_app.jar"]
