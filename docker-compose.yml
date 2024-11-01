@@ -7,26 +7,34 @@ services:
     networks:
       - gititdone_network
     environment:
-      - POSTGRES_URL=jdbc:postresql://${POSTGRES_HOST}/${POSTGRES_DB}
+      - POSTGRES_URL=jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DD_AGENT_HOST=datadog-agent
+      - DD_TRACE_AGENT_PORT=8126
+      - DD_TRACE_ENABLED=true
     depends_on:
       - gititdone_db
+      - datadog-agent
 
   datadog-agent:
     image: datadog/agent:latest
     environment:
       - DD_API_KEY=${DATADOG_API_KEY}
       - DD_SITE=datadoghq.com
+      - DD_ENV=produccion
       - DD_DOGSTATSD_PORT=8125
-      - DD_AUTH_TOKE=${DATADOG_AUTH_TOKEN}
       - DD_LOGS_ENABLED=true
       - DD_LOGS_CONFIG_LOGS_ENABLED=true
+      - DD_AUTH_TOKEN=${DATADOG_AUTH_TOKEN}
     ports:
       - "8125:8125/udp"
       - "10514:10514/tcp"
+      - "8126:8126/tcp"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock 
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - gititdone_network
 
   gititdone_db:
     container_name: gititdone_db
