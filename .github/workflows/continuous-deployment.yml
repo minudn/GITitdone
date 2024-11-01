@@ -20,8 +20,8 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/private_key
           chmod 600 /tmp/private_key
           ssh-add /tmp/private_key
-      - name: Add known hosts
-        run: ssh-keyscan 3.18.128.13 >> ~/.ssh/known_host
+      #- name: Add known hosts
+      #  run: ssh-keyscan 3.18.128.13 >> ~/.ssh/known_host
 
       - name: Copy docker-compose.yml to server
         run: |
