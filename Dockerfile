@@ -1,28 +1,40 @@
-# Etapa de construcción
 FROM maven:latest AS builder
-EXPOSE 8080
 RUN mkdir /app
 COPY . /app
 WORKDIR /app
-RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
-
-# Descargar el agente de Datadog en la carpeta /app
+RUN apt-get update && apt-get install -y wget bash && rm -rf /var/lib/apt/lists/*
 RUN wget -O /app/dd-java-agent.jar 'https://dtdg.co/latest-java-tracer'
-
-# Compilar el proyecto
 RUN mvn clean package -DskipTests
 
-# Etapa final
-FROM openjdk:17-jdk-alpine
-# Crear carpeta de aplicación
-RUN mkdir /app
+# Cambiar de `openjdk:17-jdk-alpine` a `openjdk:17-jdk-slim` para compatibilidad
+FROM openjdk:17-jdk-slim
 
-# Copiar el JAR de la aplicación y el agente Datadog desde la etapa builder
+# Instalar dependencias necesarias
+RUN apt-get update && apt-get install -y wget gnupg2 curl
+
+# Agregar el repositorio de Datadog sin la clave GPG
+RUN echo "deb [trusted=yes] https://apt.datadoghq.com/ stable 7 main" > /etc/apt/sources.list.d/datadog.list
+
+# Actualizar la lista de paquetes e instalar el agente de Datadog
+RUN apt-get update && apt-get install -y datadog-agent && rm -rf /var/lib/apt/lists/*
+
+# Descargar el agente Java de Datadog
+RUN mkdir /app
 COPY --from=builder /app/target/gamestore-0.0.1-SNAPSHOT.jar /app/gititdone_app.jar
 COPY --from=builder /app/dd-java-agent.jar /app/dd-java-agent.jar
 
-# Configurar JAVA_OPTS
-ENV JAVA_OPTS="-javaagent:/app/dd-java-agent.jar"
+# Exponer puertos necesarios
+EXPOSE 8080 10514 8126 8125/udp
 
-# Ejecutar la aplicación con el agente
-ENTRYPOINT ["java", "-javaagent:/app/dd-java-agent.jar","-Ddd.apm.enabled=true","-jar", "/app/gititdone_app.jar"]
+# Configurar variables de entorno
+ENV DD_API_KEY=${DATADOG_API_KEY} \
+    DD_SITE="datadoghq.com" \
+    DD_DOGSTATSD_PORT=8125 \
+    DD_APM_ENABLED=true \
+    DD_LOGS_ENABLED=true \
+    DD_LOGS_CONFIG_LOGS_ENABLED=true \
+    DD_APM_CONNECTION_LIMIT=2000 \
+    JAVA_OPTS="-javaagent:/app/dd-java-agent.jar -Ddd.agent.host=datadog-agent -Ddd.agent.port=8126"
+
+
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/gititdone_app.jar"]
