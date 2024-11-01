@@ -28,6 +28,10 @@ jobs:
           
       - name: Create .ssh directory
         run: mkdir -p ~/.ssh
+
+      - name: Write PPK 
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
       
       - name: Add known hosts
         run: ssh-keyscan -H 3.18.128.13 >> ~/.ssh/known_hosts
