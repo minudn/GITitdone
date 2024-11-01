@@ -5,8 +5,8 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y wget bash && rm -rf /var/lib/apt/lists/*
 RUN wget -O /app/dd-java-agent.jar 'https://dtdg.co/latest-java-tracer'
 RUN mvn clean package -DskipTests
-#FROM openjdk:17-jdk-slim#
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17-jdk-slim
+#FROM openjdk:17-jdk-alpine
 RUN apt-get update && apt-get install -y wget gnupg2 curl
 #RUN echo "deb [trusted=yes] https://apt.datadoghq.com/ stable 7 main" > /etc/apt/sources.list.d/datadog.list
 #RUN apt-get update && apt-get install -y datadog-agent && rm -rf /var/lib/apt/lists/*
