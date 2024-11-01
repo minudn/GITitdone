@@ -21,32 +21,11 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Pull Docker image
-        run: docker pull javeexd/gamestore-app  # Cambia esto por tu nombre de imagen
+        run: docker pull javeexd/gamestore-app
 
-      - name: Deploy to remote server
+      - name: Deploy to Render
+        if: github.ref == 'refs/heads/master'
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          HOST: ${{ secrets.REMOTE_HOST }}  # IP o nombre del host remoto
-          USER: ${{ secrets.REMOTE_USER }}    # Usuario SSH
+          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
-          echo "$SSH_PRIVATE_KEY" > private_key
-          chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key $USER@$HOST << 'EOF'
-            # Cambiar al directorio donde está tu docker-compose.yml
-            cd /path/to/your/project  # Cambia esto al directorio correcto
-          
-            # Detener y eliminar el contenedor existente
-            docker-compose down || true  # Ignorar errores si no hay contenedores en ejecución
-          
-            # Descargar las últimas imágenes
-            docker-compose pull
-          
-            # Iniciar los contenedores con Docker Compose
-            docker-compose up -d
-          EOF
-#      - name: Deploy to Render
-#        if: github.ref == 'refs/heads/master'
-#        env:
-#          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-#        run: |
-#          curl -X POST $deploy_url
+          curl -X POST $deploy_url
