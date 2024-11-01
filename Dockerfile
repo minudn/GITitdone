@@ -34,5 +34,4 @@ ENV DD_API_KEY=${DATADOG_API_KEY} \
     DD_LOGS_CONFIG_LOGS_ENABLED=true \
     JAVA_OPTS="-javaagent:/app/dd-java-agent.jar"
 
-# Ejecutar el agente de Datadog y la aplicación
-ENTRYPOINT ["sh", "-c", "service datadog-agent start && sleep 5 && java $JAVA_OPTS -jar /app/gititdone_app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/gititdone_app.jar"]
