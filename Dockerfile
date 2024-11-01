@@ -16,7 +16,8 @@ EXPOSE 8080 10514 8126 8125/udp
 ENV DD_API_KEY=${DATADOG_API_KEY} \
     DD_SITE="datadoghq.com" \
     DD_DOGSTATSD_PORT=8125 \
+    DD_APM_ENABLED=true \
     DD_LOGS_ENABLED=true \
     DD_LOGS_CONFIG_LOGS_ENABLED=true \
     JAVA_OPTS="-javaagent:/app/dd-java-agent.jar -Ddd.agent.host=datadog-agent -Ddd.agent.port=8126"
-ENTRYPOINT ["sh", "-c", "service datadog-agent start && sleep 5 && java $JAVA_OPTS -jar /app/gititdone_app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/gititdone_app.jar"]
