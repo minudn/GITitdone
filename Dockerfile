@@ -12,12 +12,8 @@ FROM openjdk:17-jdk-slim
 # Instalar dependencias necesarias
 RUN apt-get update && apt-get install -y wget gnupg2 curl
 
-# Agregar la clave GPG de Datadog
-RUN curl -sSL https://apt.datadoghq.com/DATADOG_APT_KEY.public -o /tmp/datadog-key && \
-    gpg --dearmor -o /etc/apt/trusted.gpg.d/datadog.gpg /tmp/datadog-key
-
-# Agregar el repositorio de Datadog
-RUN echo "deb https://apt.datadoghq.com/ stable 7 main" > /etc/apt/sources.list.d/datadog.list
+# Agregar el repositorio de Datadog sin la clave GPG
+RUN echo "deb [trusted=yes] https://apt.datadoghq.com/ stable 7 main" > /etc/apt/sources.list.d/datadog.list
 
 # Actualizar la lista de paquetes e instalar el agente de Datadog
 RUN apt-get update && apt-get install -y datadog-agent && rm -rf /var/lib/apt/lists/*
