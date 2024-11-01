@@ -28,4 +28,4 @@ ENV DD_API_KEY=${DATADOG_API_KEY} \
     JAVA_OPTS="-javaagent:/app/dd-java-agent.jar"
 
 # Ejecutar el agente de Datadog y la aplicación
-ENTRYPOINT ["/bin/bash", "-c", "/etc/init.d/datadog-agent start && java $JAVA_OPTS -jar /app/gititdone_app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/gititdone_app.jar"]
