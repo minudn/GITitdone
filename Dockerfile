@@ -33,8 +33,8 @@ ENV DD_API_KEY=${DATADOG_API_KEY} \
     DD_APM_ENABLED=true \
     DD_LOGS_ENABLED=true \
     DD_LOGS_CONFIG_LOGS_ENABLED=true \
-    DD_APM_CONNECTION_LIMIT= 2000 \
-    JAVA_OPTS="-javaagent:/app/dd-java-agent.jar OPTS -jar /app/gititdone_app.jar"
+    DD_APM_CONNECTION_LIMIT=2000 \
+    JAVA_OPTS="-javaagent:/app/dd-java-agent.jar -Ddd.agent.host=datadog-agent -Ddd.agent.port=8126"
 
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/gititdone_app.jar"]
