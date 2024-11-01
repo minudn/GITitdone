@@ -9,18 +9,20 @@ jobs:
   deploy:
     name: Deploy Application to Server
     runs-on: ubuntu-latest
-
+    env:
+      SSH_PRIVATE_KEY: ${{ vars.SSH_PRIVATE_KEY }}
+    #
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Debug private key
-        run: echo "${{ env.SSH_PRIVATE_KEY }}"
+        run: echo ${SSH_PRIVATE_KEY}
 
       - name: Set up SSH agent
         run: |
           eval "$(ssh-agent -s)"
-          echo "${{ env.SSH_PRIVATE_KEY }}" > /tmp/private_key
+          echo "${SSH_PRIVATE_KEY}" > /tmp/private_key
           chmod 600 /tmp/private_key
           ssh-add /tmp/private_key
 
