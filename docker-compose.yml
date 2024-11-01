@@ -1,5 +1,5 @@
 services:
-  gititdone_app:
+  gamestore:
     container_name: gititdone_app
     image: javeexd/gamestore-app:latest
     ports:
@@ -7,11 +7,9 @@ services:
     networks:
       - gititdone_network
     environment:
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_URL=jdbc:postresql://${POSTGRES_HOST}/${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     depends_on:
       - gititdone_db
 
@@ -21,6 +19,7 @@ services:
       - DD_API_KEY=${DATADOG_API_KEY}
       - DD_SITE=datadoghq.com
       - DD_DOGSTATSD_PORT=8125
+      - DD_AUTH_TOKE=${DATADOG_AUTH_TOKEN}
       - DD_LOGS_ENABLED=true
       - DD_LOGS_CONFIG_LOGS_ENABLED=true
     ports:
