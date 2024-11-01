@@ -14,15 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Login to Docker Hub
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-      - name: Pull Docker image
-        run: docker pull javeexd/gamestore-app
-
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
@@ -30,19 +21,19 @@ jobs:
 
       - name: Copy docker-compose.yml to server
         run: |
-          scp -o StrictHostKeyChecking=no docker-compose.yml ${USER_TODEPLOY}@${HOST_TODEPLOY}:/home/ubuntu/gamestore/
+          scp -o StrictHostKeyChecking=no docker-compose.yml ${{ vars.USER_TODEPLOY }}@$${{ vars.HOST_TODEPLOY }}:/home/ubuntu/gamestore/
 
       - name: Remove old container and images
         run: |
-          ssh u${USER_TODEPLOY}@${HOST_TODEPLOY} "cd /home/ubuntu/gamestore/ && docker-compose down gamestore-app && docker rmi javeexd/gamestore-app"
+          ssh ${{ vars.USER_TODEPLOY }}@$${{ vars.HOST_TODEPLOY }} "cd /home/ubuntu/gamestore/ && docker-compose down gamestore-app && docker rmi javeexd/gamestore-app"
 
       - name: Pull Docker images
         run: |
-          ssh ${USER_TODEPLOY}@${HOST_TODEPLOY} "cd /home/ubuntu/gamestore/ && docker-compose pull javeexd/gamestore-app"
+          ssh ${{ vars.USER_TODEPLOY }}@$${{ vars.HOST_TODEPLOY }} "cd /home/ubuntu/gamestore/ && docker-compose pull javeexd/gamestore-app"
 
       - name: Run Docker Compose
         run: |
-          ssh ${USER_TODEPLOY}@${HOST_TODEPLOY} "cd /home/ubuntu/gamestore/ && docker-compose up -d javeexd/gamestore-app"
+          ssh ${{ vars.USER_TODEPLOY }}@$${{ vars.HOST_TODEPLOY }} "cd /home/ubuntu/gamestore/ && docker-compose up -d javeexd/gamestore-app"
 #       name: Deploy to Render
 #        if: github.ref == 'refs/heads/master'
 #        env:
