@@ -1,4 +1,3 @@
-# Etapa de construcción
 FROM maven:latest AS builder
 RUN mkdir /app
 COPY . /app
@@ -30,4 +29,3 @@ ENV DD_API_KEY=${DATADOG_API_KEY} \
 
 # Ejecutar el agente de Datadog y la aplicación
 ENTRYPOINT ["/bin/bash", "-c", "/etc/init.d/datadog-agent start && java $JAVA_OPTS -jar /app/gititdone_app.jar"]
-#ENTRYPOINT ["java", "-javaagent:/app/dd-java-agent.jar","-Ddd.apm.enabled=true","-jar", "/app/gititdone_app.jar"]
