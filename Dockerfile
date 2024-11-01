@@ -3,7 +3,7 @@ FROM maven:latest AS builder
 RUN mkdir /app
 COPY . /app
 WORKDIR /app
-RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y wget bash && rm -rf /var/lib/apt/lists/*
 RUN wget -O /app/dd-java-agent.jar 'https://dtdg.co/latest-java-tracer'
 RUN mvn clean package -DskipTests
 FROM openjdk:17-jdk-alpine
