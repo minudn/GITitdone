@@ -10,11 +10,14 @@ RUN mvn clean package -DskipTests
 FROM openjdk:17-jdk-slim
 
 # Instalar dependencias necesarias
-RUN apt-get update && apt-get install -y wget gnupg curl
+RUN apt-get update && apt-get install -y wget gnupg2 curl
 
-# Agregar el repositorio de Datadog y la clave GPG
-RUN curl -sSL https://apt.datadoghq.com/DATADOG_APT_KEY.public | apt-key add - \
-    && echo "deb https://apt.datadoghq.com/ stable 7 main" > /etc/apt/sources.list.d/datadog.list
+# Agregar la clave GPG de Datadog
+RUN curl -sSL https://apt.datadoghq.com/DATADOG_APT_KEY.public -o /tmp/datadog-key && \
+    gpg --dearmor -o /etc/apt/trusted.gpg.d/datadog.gpg /tmp/datadog-key
+
+# Agregar el repositorio de Datadog
+RUN echo "deb https://apt.datadoghq.com/ stable 7 main" > /etc/apt/sources.list.d/datadog.list
 
 # Actualizar la lista de paquetes e instalar el agente de Datadog
 RUN apt-get update && apt-get install -y datadog-agent && rm -rf /var/lib/apt/lists/*
