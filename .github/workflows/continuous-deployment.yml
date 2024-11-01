@@ -21,19 +21,19 @@ jobs:
 
       - name: Copy docker-compose.yml to server
         run: |
-          scp -o StrictHostKeyChecking=no docker-compose.yml ${{ vars.USER_TODEPLOY }}@${{ vars.HOST_TODEPLOY }}:/home/ubuntu/gamestore/
+          scp -o StrictHostKeyChecking=no docker-compose.yml ubuntu@$3.18.128.13:/home/ubuntu/gamestore/
 
       - name: Remove old container and images
         run: |
-          ssh ${{ vars.USER_TODEPLOY }}@$${{ vars.HOST_TODEPLOY }} "cd /home/ubuntu/gamestore/ && docker-compose down gamestore-app && docker rmi javeexd/gamestore-app"
+          ssh ubuntu@$3.18.128.13 "cd /home/ubuntu/gamestore/ && docker-compose down gamestore-app && docker rmi javeexd/gamestore-app"
 
       - name: Pull Docker images
         run: |
-          ssh ${{ vars.USER_TODEPLOY }}@$${{ vars.HOST_TODEPLOY }} "cd /home/ubuntu/gamestore/ && docker-compose pull javeexd/gamestore-app"
+          ssh ubuntu@$3.18.128.13 "cd /home/ubuntu/gamestore/ && docker-compose pull javeexd/gamestore-app"
 
       - name: Run Docker Compose
         run: |
-          ssh ${{ vars.USER_TODEPLOY }}@$${{ vars.HOST_TODEPLOY }} "cd /home/ubuntu/gamestore/ && docker-compose up -d javeexd/gamestore-app"
+          ssh ubuntu@$3.18.128.13 "cd /home/ubuntu/gamestore/ && docker-compose up -d javeexd/gamestore-app"
 #       name: Deploy to Render
 #        if: github.ref == 'refs/heads/master'
 #        env:
