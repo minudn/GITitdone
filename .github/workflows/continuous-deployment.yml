@@ -26,9 +26,6 @@ jobs:
           chmod 600 /tmp/private_key
           ssh-add /tmp/private_key
 
-      - name: Add known hosts
-        run: ssh-keyscan -H 3.18.128.13 >> ~/.ssh/known_hosts
-
       - name: Copy docker-compose.yml to server
         run: |
           scp -o StrictHostKeyChecking=no docker-compose.yml ubuntu@3.18.128.13:/home/ubuntu/gamestore/
